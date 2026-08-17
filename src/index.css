@@ -5,8 +5,17 @@
 @layer base {
   :root{
      --radius: 0.5rem;
-     --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+     --background: 15 5% 8%;
+    --foreground: 210 20% 95%;
+    
+    /* Electronics Lab Colors */
+    --lab-accent-blue: 200 100% 50%;
+    --lab-accent-green: 120 100% 40%;
+    --lab-accent-red: 0 100% 50%;
+    --lab-accent-orange: 30 100% 50%;
+    --lab-grid: 210 20% 25%;
+    --lab-component: 210 20% 35%;
+    --lab-wire: 210 20% 45%;
 
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
