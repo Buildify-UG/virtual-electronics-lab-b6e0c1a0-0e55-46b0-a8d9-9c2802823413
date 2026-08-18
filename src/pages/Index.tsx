@@ -221,7 +221,7 @@ const Index: React.FC = () => {
 
   React.useEffect(() => {
     simulateCircuit();
-  }, [isRunning, switchState, components]);
+  }, [isRunning, switchState, components, ledStates]);
 
   // ========== HANDLERS ==========
   const filteredComponents = COMPONENT_LIBRARY.filter((c) =>
@@ -230,12 +230,16 @@ const Index: React.FC = () => {
   );
 
   const addComponent = (libComponent: typeof COMPONENT_LIBRARY[0]) => {
+    const canvasRect = canvasRef.current?.getBoundingClientRect();
+    const maxX = canvasRect ? Math.max(200, canvasRect.width - 100) : 500;
+    const maxY = canvasRect ? Math.max(200, canvasRect.height - 100) : 400;
+    
     const newComponent: Component = {
       id: `${libComponent.id}-${Date.now()}`,
       name: libComponent.name,
       category: libComponent.category,
-      x: Math.random() * 300 + 100,
-      y: Math.random() * 300 + 100,
+      x: Math.random() * (maxX - 100) + 50,
+      y: Math.random() * (maxY - 100) + 50,
       rotation: 0,
       state: false,
     };
@@ -297,12 +301,12 @@ const Index: React.FC = () => {
 
   // ========== RENDER ==========
   return (
-    <div className="flex h-screen bg-background text-foreground">
+    <div className="flex h-screen bg-background text-foreground flex-col md:flex-row">
       {/* ====== SIDEBAR ====== */}
       <div
         className={`${
-          sidebarOpen ? 'w-80' : 'w-0'
-        } bg-sidebar border-r border-sidebar-border transition-all duration-300 overflow-hidden flex flex-col`}
+          sidebarOpen ? 'w-full md:w-80 h-auto md:h-screen' : 'w-0 h-0'
+        } bg-sidebar border-r border-b md:border-b-0 border-sidebar-border transition-all duration-300 overflow-hidden flex flex-col`}
       >
         {/* Header */}
         <div className="p-4 border-b border-sidebar-border">
@@ -441,9 +445,9 @@ const Index: React.FC = () => {
       </div>
 
       {/* ====== MAIN CONTENT ====== */}
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col overflow-hidden w-full">
         {/* TOP BAR */}
-        <div className="h-16 bg-card border-b border-border flex items-center justify-between px-6">
+        <div className="h-14 md:h-16 bg-card border-b border-border flex items-center justify-between px-3 md:px-6 gap-2">
           <div className="flex items-center gap-4">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -465,9 +469,9 @@ const Index: React.FC = () => {
         </div>
 
         {/* WORKSPACE */}
-        <div className="flex-1 flex overflow-hidden gap-4 p-4">
+        <div className="flex-1 flex flex-col md:flex-row overflow-hidden gap-2 md:gap-4 p-2 md:p-4">
           {/* CANVAS */}
-          <div className="flex-1 bg-gray-900 rounded-lg border border-border overflow-hidden relative shadow-lg">
+          <div className="flex-1 bg-gray-900 rounded-lg border border-border overflow-hidden relative shadow-lg min-h-64 md:min-h-0">
             <div
               ref={canvasRef}
               className="w-full h-full relative bg-gradient-to-br from-gray-900 via-gray-800 to-black"
@@ -496,9 +500,11 @@ const Index: React.FC = () => {
                   onDragEnd={(e) => {
                     const rect = canvasRef.current?.getBoundingClientRect();
                     if (rect) {
+                      const newX = Math.max(0, Math.min(e.clientX - rect.left - 32, rect.width - 64));
+                      const newY = Math.max(0, Math.min(e.clientY - rect.top - 32, rect.height - 64));
                       updateComponent(comp.id, {
-                        x: e.clientX - rect.left - 32,
-                        y: e.clientY - rect.top - 32,
+                        x: newX,
+                        y: newY,
                       });
                     }
                   }}
