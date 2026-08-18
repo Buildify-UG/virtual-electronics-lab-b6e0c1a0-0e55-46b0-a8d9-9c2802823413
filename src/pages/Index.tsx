@@ -349,20 +349,20 @@ const Index: React.FC = () => {
                 />
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-1.5 md:space-y-2">
                 {filteredComponents.map((comp) => (
                   <button
                     key={comp.id}
                     onClick={() => addComponent(comp)}
-                    className="w-full text-left p-2 rounded bg-sidebar-background hover:bg-sidebar-accent border border-sidebar-border transition-colors"
+                    className="w-full text-left p-1.5 md:p-2 rounded bg-sidebar-background hover:bg-sidebar-accent border border-sidebar-border transition-colors"
                   >
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg">{getComponentIcon(comp.name)}</span>
+                    <div className="flex items-center gap-1.5 md:gap-2">
+                      <span className="text-base md:text-lg flex-shrink-0">{getComponentIcon(comp.name)}</span>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium truncate">{comp.name}</p>
-                        <p className="text-xs text-sidebar-foreground/50">{comp.category}</p>
+                        <p className="text-xs md:text-sm font-medium truncate">{comp.name}</p>
+                        <p className="text-xs text-sidebar-foreground/50 hidden md:block">{comp.category}</p>
                       </div>
-                      <Plus className="w-4 h-4 flex-shrink-0" />
+                      <Plus className="w-3 md:w-4 h-3 md:h-4 flex-shrink-0" />
                     </div>
                   </button>
                 ))}
@@ -448,22 +448,22 @@ const Index: React.FC = () => {
       <div className="flex-1 flex flex-col overflow-hidden w-full">
         {/* TOP BAR */}
         <div className="h-14 md:h-16 bg-card border-b border-border flex items-center justify-between px-3 md:px-6 gap-2">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 md:gap-4 min-w-0">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="p-2 hover:bg-secondary rounded transition-colors"
+              className="p-2 hover:bg-secondary rounded transition-colors flex-shrink-0"
             >
               {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
-            <h2 className="text-lg font-semibold">Virtual Electronics Laboratory</h2>
+            <h2 className="text-sm md:text-lg font-semibold truncate">ElectroLab Lab</h2>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1 md:gap-3 flex-shrink-0">
             <button className="p-2 hover:bg-secondary rounded transition-colors" title="Settings">
-              <Settings className="w-5 h-5" />
+              <Settings className="w-4 md:w-5 h-4 md:h-5" />
             </button>
             <button className="p-2 hover:bg-secondary rounded transition-colors" title="Profile">
-              <User className="w-5 h-5" />
+              <User className="w-4 md:w-5 h-4 md:h-5" />
             </button>
           </div>
         </div>
@@ -512,7 +512,7 @@ const Index: React.FC = () => {
                   <span className="text-3xl">{getComponentIcon(comp.name)}</span>
 
                   {/* COMPONENT LABEL */}
-                  <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-900 px-2 py-1 rounded text-xs whitespace-nowrap border border-border">
+                  <div className="absolute top-full mt-1 left-1/2 transform -translate-x-1/2 bg-gray-900 px-2 py-1 rounded text-xs whitespace-nowrap border border-border pointer-events-none z-10">
                     {comp.name.split('(')[0].trim()}
                   </div>
 
@@ -534,9 +534,10 @@ const Index: React.FC = () => {
                         e.stopPropagation();
                         toggleSwitch();
                       }}
-                      className={`absolute -bottom-2 -right-2 rounded-full p-1 shadow-md ${
-                        switchState ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-600 hover:bg-gray-700'
+                      className={`absolute -bottom-2 -right-2 rounded-full p-1 shadow-md transition-all ${
+                        switchState ? 'bg-green-500 hover:bg-green-600 scale-110' : 'bg-gray-600 hover:bg-gray-700'
                       }`}
+                      title={switchState ? 'Switch: ON' : 'Switch: OFF'}
                     >
                       <Power className="w-3 h-3" />
                     </button>
@@ -558,7 +559,7 @@ const Index: React.FC = () => {
           </div>
 
           {/* CONTROL PANEL */}
-          <div className="w-72 bg-card border border-border rounded-lg p-4 flex flex-col gap-4 shadow-lg">
+          <div className="w-full md:w-72 bg-card border border-border rounded-lg p-3 md:p-4 flex flex-col gap-3 md:gap-4 shadow-lg overflow-y-auto md:overflow-y-visible max-h-64 md:max-h-none">
             <h3 className="text-sm font-semibold flex items-center gap-2">
               <Cpu className="w-4 h-4" />
               Simulation Control
